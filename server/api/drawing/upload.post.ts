@@ -1,7 +1,7 @@
 export default defineEventHandler(async (event) => {
 	const { user } = await requireUserSession(event)
 
-	const formData = await readBody(event)
+	const formData = await readFormData(event)
 	const drawing = formData.get('drawing') as File
 
 	if (!drawing || !drawing.size) {
@@ -17,6 +17,7 @@ export default defineEventHandler(async (event) => {
 		`${new Date('2077-01-01').getTime() - Date.now()}.jpeg`,
 		drawing,
 		{
+			// prefix: 'drawings/',
 			addRandomSuffix: true,
 			customMetadata: {
 				userProvider: user.provider,
